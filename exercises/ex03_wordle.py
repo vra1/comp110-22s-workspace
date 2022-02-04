@@ -3,6 +3,7 @@
 __author__ = "730309871"
 
 
+# This function checks for characters in a certain word.
 def contains_char(guess: str, letter: str) -> bool:
     """A function to check for a letterin a word."""
     assert len(letter) == 1
@@ -15,6 +16,7 @@ def contains_char(guess: str, letter: str) -> bool:
     return False
 
 
+# This function uses the contains_char function to add appropriate emojis.
 def emojified(guess: str, secret: str) -> str:
     """A function to insert emojis based on whether a letter appears in a word."""
     WHITE_BOX: str = "\U00002B1C"
@@ -35,6 +37,7 @@ def emojified(guess: str, secret: str) -> str:
     return boxes
 
 
+# This function asks for a guess and makes sure that it is the correct length.
 def input_guess(length: int) -> str:
     """Checks that the guess is the correct length."""
     guess: str = input(f"Enter a {length} character word: ")
@@ -43,19 +46,25 @@ def input_guess(length: int) -> str:
     return guess
 
 
+# The main function establishes the secret word and controls the game using the other functions.
 def main() -> None:
     """The entrypoint of the program and the main game loop."""
     turns: int = 1
     secret: str = "codes"
-    while turns <= 6:
+    correct: bool = False
+    guess: str = ""
+    while turns <= 6 and not correct:
         print(f"=== Turn {turns}/6 ===")
-        guess: str = input_guess(len(secret))
+        guess = input_guess(len(secret))
         print(emojified(guess, secret))
         if guess == secret:
-            print(f"You won in {turns}/6 turns!")
-            exit()
-        turns += 1
-    print(f"X/{len(secret)} - Sorry, try again tomorrow!")
+            correct = True
+        else:
+            turns += 1
+    if correct:
+        print(f"You won in {turns}/6 turns!")
+    else:
+        print("X/6 - Sorry, try again tomorrow!")
 
 
 if __name__ == "__main__":
